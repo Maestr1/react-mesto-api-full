@@ -1,0 +1,18 @@
+.link {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+  transition: opacity .2s ease-in-out;
+}
+
+@media (min-width: 1100px) {
+  .link:hover {
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 1100px) {
+  .link {
+    font-size: 14px;
+  }
+}

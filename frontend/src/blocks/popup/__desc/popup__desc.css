@@ -1,0 +1,7 @@
+.popup__desc {
+  margin: 0;
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  font-size: 12px;
+}

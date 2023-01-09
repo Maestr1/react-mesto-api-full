@@ -1,0 +1,4 @@
+.card__like-btn_liked {
+  background: url(../../../../images/active-like-icon.svg);
+  transition: background .3s ease-in-out;
+}

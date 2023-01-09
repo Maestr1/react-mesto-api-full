@@ -1,0 +1,22 @@
+.header__wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  color: #A9A9A9;
+}
+
+@media (max-width: 500px) {
+  .header__wrap {
+    margin-top: -142px;
+    padding: 40px 0;
+    flex-direction: column;
+    width: 100%;
+    gap: 18px;
+    border-bottom: 1px solid #545454b3;
+    transition: margin-top .4s ease-in-out;
+  }
+
+  .header__wrap_active {
+    margin-top: 0;
+  }
+}

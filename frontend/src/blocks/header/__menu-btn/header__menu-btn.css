@@ -1,0 +1,9 @@
+.header__menu-btn {
+  display: none
+}
+
+@media (max-width: 500px) {
+  .header__menu-btn {
+    display: inline-block;
+  }
+}

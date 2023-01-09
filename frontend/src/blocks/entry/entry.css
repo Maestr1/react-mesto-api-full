@@ -1,0 +1,15 @@
+.entry {
+  padding-top: 60px;
+  margin: 0 auto;
+  flex: 1 0 auto;
+  width: 358px;
+}
+
+@media (max-width: 767px) {
+  .entry {
+    display: flex;
+    flex-direction: column;
+    padding-top: 40px;
+    width: 260px;
+  }
+}

@@ -1,0 +1,10 @@
+.popup__input-wrap {
+    margin-bottom: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.popup__input-wrap:last-of-type {
+    margin-bottom: 45px;
+}

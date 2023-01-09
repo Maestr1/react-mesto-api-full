@@ -1,0 +1,5 @@
+@media (max-width: 500px) {
+  .header_active {
+    margin-top: 0;
+  }
+}

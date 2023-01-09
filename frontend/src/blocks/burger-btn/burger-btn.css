@@ -1,0 +1,26 @@
+.burger-btn {
+  padding: 0;
+  position: relative;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.burger-btn [class*='burger-btn__bar-'] {
+  background: #fff;
+  display: block;
+  transform: rotate(0deg);
+  transition: .4s ease all;
+  border-radius: 2px;
+  height: 2px;
+  width: 24px;
+  margin-bottom: 4px;
+}
+
+.burger-btn:focus {
+  outline-width: 0;
+}
+
+.burger-btn .burger-btn__bar-bot {
+  margin-bottom: 0;
+}
+

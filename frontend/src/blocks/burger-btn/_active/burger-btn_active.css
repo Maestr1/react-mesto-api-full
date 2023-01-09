@@ -1,0 +1,13 @@
+.burger-btn_active .burger-btn__bar-top {
+  transform: rotate(45deg);
+  transform-origin: 15% 15%;
+}
+
+.burger-btn_active .burger-btn__bar-mid {
+  opacity: 0;
+}
+
+.burger-btn_active .burger-btn__bar-bot {
+  transform: rotate(-45deg);
+  transform-origin: 15% 95%;
+}

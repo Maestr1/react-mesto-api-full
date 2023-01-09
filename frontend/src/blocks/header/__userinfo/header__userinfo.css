@@ -1,0 +1,10 @@
+.header__userinfo {
+  font-size: 18px;
+  color: #fff;
+}
+
+@media (max-width: 500px) {
+  .header__userinfo {
+    margin: 0;
+  }
+}

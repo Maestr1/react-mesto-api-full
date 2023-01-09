@@ -1,0 +1,19 @@
+.card__remove-btn {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 18px;
+  height: 19px;
+  border: none;
+  background: url(../../../images/Trash.svg) no-repeat center center;
+  background-size: contain;
+  transition: opacity .2s ease-in-out;
+}
+
+@media (min-width: 1100px) {
+  .card__remove-btn:hover {
+    opacity: .6;
+  }
+}

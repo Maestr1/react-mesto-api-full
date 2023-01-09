@@ -1,0 +1,9 @@
+.entry__link-title {
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .entry__link-title {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,20 @@
+.entry__input {
+  padding: 0;
+  padding-bottom: 13px;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+  min-height: 27px;
+  border: none;
+  border-bottom: 1px solid #CCC;
+  font-size: 14px;
+  background-color: inherit;
+  color: #fff;
+}
+
+.entry__input::placeholder {
+  color: #CCC;
+}
+
+.entry__input:last-of-type {
+  margin-bottom: 48px;
+}

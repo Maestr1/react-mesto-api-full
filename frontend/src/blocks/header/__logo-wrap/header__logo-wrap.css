@@ -1,0 +1,13 @@
+.header__logo-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+}
+
+@media (max-width: 500px) {
+  .header__logo-wrap {
+    box-sizing: border-box;
+    padding: 28px 30px;
+  }
+}

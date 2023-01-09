@@ -1,0 +1,21 @@
+.profile__add-btn {
+  flex-shrink: 0;
+  margin-left: 15px;
+  padding: 0;
+  width: 150px;
+  height: 50px;
+  background: url(../../../images/Add_icon.svg) no-repeat center center;
+  background-size: 22px 22px;
+  border: 2px solid #fff;
+  border-radius: 2px;
+  transition: opacity .2s ease-in-out;
+}
+
+@media (max-width: 767px) {
+  .profile__add-btn {
+    margin-top: 33px;
+    margin-left: 0;
+    width: 282px;
+    background-size: 16px 16px;
+  }
+}

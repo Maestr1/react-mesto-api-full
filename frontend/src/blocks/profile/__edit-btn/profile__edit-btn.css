@@ -1,0 +1,28 @@
+.profile__edit-btn {
+  padding: 0;
+  position: absolute;
+  right: -20px;
+  top: 15px;
+  height: 24px;
+  width: 24px;
+  background: url(../../../images/Edit_icon.svg) no-repeat center center;
+  background-size: cover;
+  border: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+@media (max-width: 1100px) {
+  .profile__edit-btn {
+    top: 7px;
+    right: -13px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile__edit-btn {
+    top: 35px;
+    right: -28px;
+  }
+}
