@@ -7,7 +7,7 @@ module.exports.getCards = (req, res, next) => {
   Card.find({})
     .populate('owner')
     .populate('likes')
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 
@@ -22,7 +22,12 @@ module.exports.createCard = (req, res, next) => {
     link,
     owner,
   })
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      Card.findById(card._id)
+        .populate('owner')
+        .then((foundCard) => res.send(foundCard));
+    })
+    // .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError('Переданы некорректные данные о пользователе'));
@@ -42,7 +47,7 @@ module.exports.removeCard = (req, res, next) => {
         return;
       }
       Card.findByIdAndRemove(req.params.cardId)
-        .then(() => res.send({ data: card }));
+        .then(() => res.send(card));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -58,7 +63,7 @@ module.exports.putLike = (req, res, next) => {
     })
     .populate('owner')
     .populate('likes')
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new ValidationError('Переданы некорректные данные о карточке'));
@@ -74,7 +79,7 @@ module.exports.deleteLike = (req, res, next) => {
     })
     .populate('owner')
     .populate('likes')
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new ValidationError('Переданы некорректные данные о карточке'));

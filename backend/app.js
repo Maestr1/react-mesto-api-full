@@ -1,16 +1,29 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { errors } = require('celebrate');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
+const {
+  requestLogger,
+  errorLogger,
+} = require('./middlewares/logger');
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/error-handler');
-const { validateSignUp, validateSignIn } = require('./middlewares/validatons');
+const {
+  validateSignUp,
+  validateSignIn,
+} = require('./middlewares/validatons');
 const { NOT_FOUND_ERR_STATUS } = require('./utils/constants');
-const { createUser, login } = require('./controllers/users');
+const {
+  createUser,
+  login,
+} = require('./controllers/users');
+
+require('dotenv').config();
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 mongoose.set('runValidators', true);
@@ -20,6 +33,12 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.use('/signin', validateSignIn, login);
 app.use('/signup', validateSignUp, createUser);

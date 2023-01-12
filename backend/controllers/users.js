@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const User = require('../models/user');
 
-const { JWT_SECRET = 'secret-key' } = process.env;
+const { NODE_ENV, JWT_SECRET = 'secret-key' } = process.env;
 const NotFoundError = require('../errors/not-found');
 const ValidationError = require('../errors/validation');
 const LoginError = require('../errors/login');
@@ -20,7 +20,7 @@ function updateUserInfoErrorHandler(res, err, next) {
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.send(users))
     .catch(next);
 };
 
@@ -29,7 +29,7 @@ module.exports.getMe = (req, res, next) => {
     .orFail(() => {
       next(new NotFoundError('Запрашиваемый пользователь не найден'));
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch(next);
 };
 
@@ -38,7 +38,7 @@ module.exports.getUser = (req, res, next) => {
     .orFail(() => {
       next(new NotFoundError('Запрашиваемый пользователь не найден'));
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new ValidationError('Переданы некорректные данные о пользователе'));
@@ -67,7 +67,7 @@ module.exports.createUser = (req, res, next) => {
         .then((user) => {
           const userObject = user.toObject();
           delete userObject.password;
-          res.send({ data: userObject });
+          res.send(userObject);
         })
         .catch((err) => {
           if (err.name === 'ValidationError') {
@@ -84,7 +84,7 @@ module.exports.createUser = (req, res, next) => {
 module.exports.patchUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       updateUserInfoErrorHandler(res, err, next);
     });
@@ -99,7 +99,7 @@ module.exports.patchUserInfo = (req, res, next) => {
     name,
     about,
   }, { new: true })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       updateUserInfoErrorHandler(res, err, next);
     });
@@ -116,7 +116,7 @@ module.exports.login = (req, res, next) => {
   }
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'secret-key', { expiresIn: '7d' });
       res.send({ token });
     })
     .catch((err) => {

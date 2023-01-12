@@ -192,7 +192,7 @@ export default function App() {
       auth.checkTokenValid(jwt)
         .then(res => {
           if (res) {
-            setUserEmail(res.data.email);
+            setUserEmail(res.email);
             setLoggedIn(true);
             history.push('/');
           }
