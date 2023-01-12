@@ -182,7 +182,6 @@ export default function App() {
     setLoggedIn(false);
     localStorage.removeItem('token');
     history.push('/sign-in');
-    console.log('logout');
   }
 
   //Проверить валидность токена
