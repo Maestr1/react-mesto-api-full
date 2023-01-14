@@ -1,5 +1,5 @@
 export const apiConfig = {
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'https://api.maestr-mesto.nomoredomains.club',
   headers: {
     'Content-Type': 'application/json'
   }
