@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.maestr-mesto.nomoredomains.club';
+import {apiConfig} from './data';
 
 class Auth {
 
@@ -12,7 +12,7 @@ class Auth {
   }
 
   register(password, email) {
-    return fetch(`${BASE_URL}/signup`, {
+    return fetch(`${apiConfig.baseUrl}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -23,7 +23,7 @@ class Auth {
   }
 
   login(password, email) {
-    return fetch(`${BASE_URL}/signin`, {
+    return fetch(`${apiConfig.baseUrl}/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ class Auth {
   }
 
   checkTokenValid(token) {
-    return fetch(`${BASE_URL}/users/me`, {
+    return fetch(`${apiConfig.baseUrl}/users/me`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

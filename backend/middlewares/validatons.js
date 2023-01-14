@@ -74,7 +74,6 @@ module.exports.validateSignUp = celebrate({
           'any.required': 'Необходимо ввести пароль',
         }),
     })
-    .unknown(true),
 });
 
 module.exports.validateSignIn = celebrate({
@@ -116,13 +115,6 @@ module.exports.validatePatchUserInfo = celebrate({
         .messages({
           'string.min': 'В описании не должно быть менее 2 символов',
           'string.max': 'В описании не должно быть более 30 символов',
-        }),
-      avatar: Joi.string()
-        .custom((value, helpers) => {
-          if (isURL(value)) {
-            return value;
-          }
-          return helpers.message('Введена некорректная ссылка на аватар');
         }),
     }),
 });

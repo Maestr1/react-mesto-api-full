@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const validator = require('validator');
+const { isEmail, isURL } = require('validator');
 
-const { Schema } = mongoose;
-
-const userSchema = new Schema({
+const userSchema = mongoose.Schema({
   name: {
     type: String,
     default: 'Жак-Ив Кусто',
@@ -20,13 +18,17 @@ const userSchema = new Schema({
   avatar: {
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+    validate: {
+      validator: (url) => isURL(url),
+      message: 'Неправильный формат ссылки',
+    },
   },
   email: {
     type: String,
     required: true,
     unique: true,
     validate: {
-      validator: (email) => validator.isEmail(email),
+      validator: (email) => isEmail(email),
       message: 'Неправильный формат почты',
     },
   },
@@ -39,7 +41,8 @@ const userSchema = new Schema({
 
 // eslint-disable-next-line func-names
 userSchema.statics.findUserByCredentials = function (email, password) {
-  return this.findOne({ email }).select('+password')
+  return this.findOne({ email })
+    .select('+password')
     .then((user) => {
       if (!user) {
         return Promise.reject(new Error('Неправильные почта или пароль'));

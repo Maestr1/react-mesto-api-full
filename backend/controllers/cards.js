@@ -7,7 +7,7 @@ module.exports.getCards = (req, res, next) => {
   Card.find({})
     .populate('owner')
     .populate('likes')
-    .then((cards) => res.send(cards))
+    .then((cards) => res.send(cards.reverse()))
     .catch(next);
 };
 
@@ -22,15 +22,18 @@ module.exports.createCard = (req, res, next) => {
     link,
     owner,
   })
-    .then((card) => {
-      Card.findById(card._id)
-        .populate('owner')
-        .then((foundCard) => res.send(foundCard));
-    })
-    // .then((card) => res.send(card))
+    // TODO удалить, если не пригодится
+    // .then((card) => {
+    //   Card.findById(card._id)
+    //     .populate('owner')
+    //     .then((foundCard) => res.send(foundCard));
+    // })
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ValidationError('Переданы некорректные данные о пользователе'));
+        next(new ValidationError('Переданы некорректные данные о карточке'));
+      } else {
+        next(err);
       }
     });
 };
@@ -40,18 +43,23 @@ module.exports.removeCard = (req, res, next) => {
     .orFail(() => {
       next(new NotFoundError('Запрашиваемая карточка не найдена'));
     })
-    // eslint-disable-next-line consistent-return
     .then((card) => {
       if (!card.owner.equals(req.user._id)) {
         next(new ForbiddenError('Нет прав для удаления этой карточки'));
         return;
       }
       Card.findByIdAndRemove(req.params.cardId)
-        .then(() => res.send(card));
+        .orFail(() => {
+          next(new NotFoundError('Запрашиваемая карточка не найдена'));
+        })
+        .then(() => res.send(card))
+        .catch(next);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new ValidationError('Переданы некорректные данные о карточке'));
+      } else {
+        next(err);
       }
     });
 };
@@ -68,7 +76,7 @@ module.exports.putLike = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new ValidationError('Переданы некорректные данные о карточке'));
       }
-      next();
+      next(err);
     });
 };
 
@@ -84,6 +92,6 @@ module.exports.deleteLike = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new ValidationError('Переданы некорректные данные о карточке'));
       }
-      next();
+      next(err);
     });
 };

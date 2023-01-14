@@ -1,9 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const validator = require('validator');
 const User = require('../models/user');
 
-const { NODE_ENV, JWT_SECRET = 'secret-key' } = process.env;
+const {
+  NODE_ENV,
+  JWT_SECRET = 'secret-key',
+} = process.env;
 const NotFoundError = require('../errors/not-found');
 const ValidationError = require('../errors/validation');
 const LoginError = require('../errors/login');
@@ -14,7 +16,9 @@ function updateUserInfoErrorHandler(res, err, next) {
     next(new ValidationError('Переданы некорректные данные о пользователе'));
   }
   if (err.name === 'CastError') {
-    next(new NotFoundError('Запрашиваемый пользователь не найден'));
+    next(new ValidationError('Передан некорректный ID пользователя'));
+  } else {
+    next(err);
   }
 }
 
@@ -43,7 +47,7 @@ module.exports.getUser = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new ValidationError('Переданы некорректные данные о пользователе'));
       }
-      next();
+      next(err);
     });
 };
 
@@ -75,6 +79,8 @@ module.exports.createUser = (req, res, next) => {
           }
           if (err.code === 11000) {
             next(new NotUniqueError('Введенный Email уже используется'));
+          } else {
+            next(err);
           }
         });
     })
@@ -110,10 +116,6 @@ module.exports.login = (req, res, next) => {
     email,
     password,
   } = req.body;
-  if (!validator.isEmail(email)) {
-    next(new ValidationError('Введен некорректный Email'));
-    return;
-  }
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'secret-key', { expiresIn: '7d' });
