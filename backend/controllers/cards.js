@@ -22,12 +22,6 @@ module.exports.createCard = (req, res, next) => {
     link,
     owner,
   })
-    // TODO удалить, если не пригодится
-    // .then((card) => {
-    //   Card.findById(card._id)
-    //     .populate('owner')
-    //     .then((foundCard) => res.send(foundCard));
-    // })
     .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {

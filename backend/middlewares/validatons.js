@@ -73,7 +73,7 @@ module.exports.validateSignUp = celebrate({
           'string.empty': 'Пароль не может быть пустым',
           'any.required': 'Необходимо ввести пароль',
         }),
-    })
+    }),
 });
 
 module.exports.validateSignIn = celebrate({
