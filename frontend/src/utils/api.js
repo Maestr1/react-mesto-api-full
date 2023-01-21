@@ -1,4 +1,4 @@
-import {apiConfig} from './data';
+import { apiConfig } from './data';
 
 class Api {
   constructor(options) {

@@ -1,4 +1,4 @@
-import {apiConfig} from './data';
+import { apiConfig } from './data';
 
 class Auth {
 
@@ -12,7 +12,7 @@ class Auth {
   }
 
   register(password, email) {
-    return fetch(`${apiConfig.baseUrl}/signup`, {
+    return fetch(`${ apiConfig.baseUrl }/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -23,7 +23,7 @@ class Auth {
   }
 
   login(password, email) {
-    return fetch(`${apiConfig.baseUrl}/signin`, {
+    return fetch(`${ apiConfig.baseUrl }/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -40,11 +40,11 @@ class Auth {
   }
 
   checkTokenValid(token) {
-    return fetch(`${apiConfig.baseUrl}/users/me`, {
+    return fetch(`${ apiConfig.baseUrl }/users/me`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${ token }`
       }
     })
       .then(res => this._onResponse(res));

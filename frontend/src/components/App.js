@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import api from '../utils/api';
-import {Switch, Route, useHistory} from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import Header from './Header';
 import Login from './Login';
@@ -23,11 +23,11 @@ export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({card: ''});
+  const [selectedCard, setSelectedCard] = useState({ card: '' });
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isSuccessPopupOpen, setSuccessPopupOpen] = useState(false);
   const [isUnsuccessPopupOpen, setUnsuccessPopupOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState({name: '', about: ''});
+  const [currentUser, setCurrentUser] = useState({ name: '', about: '' });
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
@@ -48,7 +48,7 @@ export default function App() {
           setCurrentUser(userInfo);
           setCards(cardList);
         })
-        .catch(res => console.log(`Запрос информации не выполнен. Текст ошибки: ${res}`));
+        .catch(res => console.log(`Запрос информации не выполнен. Текст ошибки: ${ res }`));
     }
   }, [loggedIn]);
 
@@ -68,7 +68,7 @@ export default function App() {
         setCards([res, ...cards]);
         closeAllPopups();
       })
-      .catch(err => console.log(`Ошибка, карточка не добавлена. Текст ошибки: ${err}`))
+      .catch(err => console.log(`Ошибка, карточка не добавлена. Текст ошибки: ${ err }`))
       .finally(() => {
         setIsLoading(false);
       });
@@ -81,7 +81,7 @@ export default function App() {
       .then(newCard => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
-      .catch(err => console.log(`Ошибка лайка. Текст ошибки: ${err}`));
+      .catch(err => console.log(`Ошибка лайка. Текст ошибки: ${ err }`));
   }
 
   //Удалить карточку  с сервера
@@ -90,7 +90,7 @@ export default function App() {
       .then(() => {
         setCards((cards) => cards.filter(i => i !== card));
       })
-      .catch(err => console.log(`Карточка не удалена. Текст ошибки: ${err}`));
+      .catch(err => console.log(`Карточка не удалена. Текст ошибки: ${ err }`));
   }
 
   //Открыть попап с изхображением карточки
@@ -107,7 +107,7 @@ export default function App() {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch(err => console.log(`Данные не отправлены. Текст ошибки: ${err}`))
+      .catch(err => console.log(`Данные не отправлены. Текст ошибки: ${ err }`))
       .finally(() => {
         setIsLoading(false);
       });
@@ -121,7 +121,7 @@ export default function App() {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch(err => console.log(`Данные не отправлены. Текст ошибки: ${err}`))
+      .catch(err => console.log(`Данные не отправлены. Текст ошибки: ${ err }`))
       .finally(() => {
         setIsLoading(false);
       });
@@ -150,29 +150,29 @@ export default function App() {
 
   //Авторизоваться на сервере и записать токен в хранилище
   function handleLogin(password, email) {
-    auth.login({password, email})
+    auth.login({ password, email })
       .then(res => {
         if (res.token) {
-          setIsBurgerOpen(false)
+          setIsBurgerOpen(false);
           checkToken(); //валидация токена для получения email пользователя и подстановки его на страницу при переходе со страницы входа
         }
       })
       .catch(err => {
-        setUnsuccessPopupOpen(true)
+        setUnsuccessPopupOpen(true);
         console.log(err);
       });
   }
 
   //Регистрация на сервере, переадресация на страницу входа
   function handleRegister(password, email) {
-    auth.register({password, email})
+    auth.register({ password, email })
       .then(() => {
-        setSuccessPopupOpen(true)
+        setSuccessPopupOpen(true);
         history.push('/sign-in');
       })
       .catch(err => {
-        setUnsuccessPopupOpen(true)
-        console.log(`Ошибка регистрации. Код ошибки: ${err}`);
+        setUnsuccessPopupOpen(true);
+        console.log(`Ошибка регистрации. Код ошибки: ${ err }`);
       });
   }
 
@@ -203,45 +203,45 @@ export default function App() {
 
   return (
 
-    <CurrentUserContext.Provider value={currentUser}>
-        <Header toggleMenu={toggleMenuOpen} isMenuOpen={isBurgerOpen} userEmail={userEmail} onClickBtn={onLogout}
-                loggedIn={loggedIn}/>
-        <Switch>
-          <Route exact path="/sign-in">
-            <Login handleLogin={handleLogin}/>
-          </Route>
-          <Route exact path="/sign-up">
-            <Register handleRegister={handleRegister}/>
-          </Route>
-          <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main} onCardDelete={handleCardDelete}
-                          onCardLike={handleCardLike}
-                          cards={cards}
-                          onCardClick={handleCardClick}
-                          onEditProfile={handleEditProfileClick}
-                          onAddPlace={handleAddPlaceClick}
-                          onEditAvatar={handleEditAvatarClick}/>
-        </Switch>
-        <EditProfilePopup isLoading={isLoading} onUpdateUser={handleUpdateUser} onClose={closeAllPopups}
-                          isOpen={isEditProfilePopupOpen}/>
-        <AddPlacePopup isLoading={isLoading} onAddPlace={handleAddPlaceSubmit} onClose={closeAllPopups}
-                       isOpen={isAddPlacePopupOpen}/>
-        <EditAvatarPopup isLoading={isLoading} onUpdateAvatar={handleUpdateAvatar} onClose={closeAllPopups}
-                         isOpen={isEditAvatarPopupOpen}/>
-        <PopupWithForm onClose={closeAllPopups}
-                       name="confirm"
-                       title="Вы уверены?"
-                       buttonText="Да"/>
-        <ImagePopup onClose={closeAllPopups} isOpen={isImagePopupOpen} card={selectedCard}/>
-        <InfoTooltip isOpen={isSuccessPopupOpen}
-                     onClose={closeAllPopups}
-                     title="Вы успешно зарегистрировались!"
-                     link={successLogo}
-                     name="success"/>
-        <InfoTooltip isOpen={isUnsuccessPopupOpen}
-                     onClose={closeAllPopups}
-                     title="Что-то пошло не так! Попробуйте ещё раз."
-                     link={unsuccessLogo}
-                     name="unsuccess"/>
-        <Footer/>
+    <CurrentUserContext.Provider value={ currentUser }>
+      <Header toggleMenu={ toggleMenuOpen } isMenuOpen={ isBurgerOpen } userEmail={ userEmail } onClickBtn={ onLogout }
+              loggedIn={ loggedIn }/>
+      <Switch>
+        <Route exact path="/sign-in">
+          <Login handleLogin={ handleLogin }/>
+        </Route>
+        <Route exact path="/sign-up">
+          <Register handleRegister={ handleRegister }/>
+        </Route>
+        <ProtectedRoute exact path="/" loggedIn={ loggedIn } component={ Main } onCardDelete={ handleCardDelete }
+                        onCardLike={ handleCardLike }
+                        cards={ cards }
+                        onCardClick={ handleCardClick }
+                        onEditProfile={ handleEditProfileClick }
+                        onAddPlace={ handleAddPlaceClick }
+                        onEditAvatar={ handleEditAvatarClick }/>
+      </Switch>
+      <EditProfilePopup isLoading={ isLoading } onUpdateUser={ handleUpdateUser } onClose={ closeAllPopups }
+                        isOpen={ isEditProfilePopupOpen }/>
+      <AddPlacePopup isLoading={ isLoading } onAddPlace={ handleAddPlaceSubmit } onClose={ closeAllPopups }
+                     isOpen={ isAddPlacePopupOpen }/>
+      <EditAvatarPopup isLoading={ isLoading } onUpdateAvatar={ handleUpdateAvatar } onClose={ closeAllPopups }
+                       isOpen={ isEditAvatarPopupOpen }/>
+      <PopupWithForm onClose={ closeAllPopups }
+                     name="confirm"
+                     title="Вы уверены?"
+                     buttonText="Да"/>
+      <ImagePopup onClose={ closeAllPopups } isOpen={ isImagePopupOpen } card={ selectedCard }/>
+      <InfoTooltip isOpen={ isSuccessPopupOpen }
+                   onClose={ closeAllPopups }
+                   title="Вы успешно зарегистрировались!"
+                   link={ successLogo }
+                   name="success"/>
+      <InfoTooltip isOpen={ isUnsuccessPopupOpen }
+                   onClose={ closeAllPopups }
+                   title="Что-то пошло не так! Попробуйте ещё раз."
+                   link={ unsuccessLogo }
+                   name="unsuccess"/>
+      <Footer/>
     </CurrentUserContext.Provider>);
 }
