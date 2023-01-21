@@ -8,7 +8,7 @@ export default function Main({onCardDelete, onCardLike, cards, onAddPlace, onCar
   const cardsElement = cards.map((item) => (
     <li key={item._id}><Card onCardDelete={onCardDelete}
                              onCardLike={onCardLike}
-                             nonCardClick={onCardClick}
+                             onCardClick={onCardClick}
                              card={item}/></li>
   ));
 
