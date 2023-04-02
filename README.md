@@ -1,12 +1,11 @@
-# react-mesto-api-full
+
+# Mesto
+
 Репозиторий для приложения проекта `Mesto`, включающий фронтенд и бэкенд части приложения со следующими возможностями: авторизации и регистрации пользователей, операции с карточками и пользователями. Бэкенд расположите в директории `backend/`, а фронтенд - в `frontend/`. 
 
-Ссылка на репозиторий: 
-https://github.com/Maestr1/react-mesto-api-full
+## Стек: React.js v18, JS ES6, CSS, HTML, Node.js, Express.js, MongoDB
 
-Ссылка на сайт проекта:
-https://maestr-mesto.nomoredomains.club/
+### Для развертывания запустить в папках `backend/` и `frontend/` репозитория команду "npm start", локальный сервер откроется по адресу http://localhost:3000
+Так же потребуется установить `MongoDB` и запустить его в терминале
 
-IP  51.250.82.177
-Frontend  https://maestr-mesto.nomoredomains.club/
-Backend  https://api.maestr-mesto.nomoredomains.club/
+На текущий момент весь задуманный функционал проекта реализован. <br/>
